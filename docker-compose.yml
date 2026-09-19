@@ -1,0 +1,35 @@
+services:
+	api:
+		build:
+			context: ./backend
+			dockerfile: Dockerfile
+		command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+		ports:
+			- "8000:8000"
+		environment:
+			DATABASE_URL: postgresql://postgres:postgres@db:5432/sentinel
+		depends_on:
+			- db
+	db:
+		image: postgres:16-alpine
+		environment:
+			POSTGRES_DB: sentinel
+			POSTGRES_USER: postgres
+			POSTGRES_PASSWORD: postgres
+		ports:
+			- "5432:5432"
+		volumes:
+			- sentinel_pg:/var/lib/postgresql/data
+	frontend:
+		image: node:22-alpine
+		working_dir: /app
+		command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+		ports:
+			- "5173:5173"
+		volumes:
+			- ./frontend:/app
+		depends_on:
+			- api
+
+volumes:
+	sentinel_pg:

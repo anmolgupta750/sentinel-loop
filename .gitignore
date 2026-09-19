@@ -1,0 +1,28 @@
+# Virtual environments
+venv/
+venv312/
+.venv/
+backend/.venv/
+frontend/venv312/
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Environment and secrets
+.env
+*.env
+backend/.env
+
+# Databases & local storage
+backend/chroma_data/
+backend/data/
+*.sqlite3
+
+# Python cache & build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+dist/
+frontend/dist/
+build/
